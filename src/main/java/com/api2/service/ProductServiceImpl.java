@@ -7,17 +7,14 @@ import com.api2.model.Product;
 import com.api2.repository.ProductRepo;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	ProductRepo repo;
-	
+
 	public Product getProductById(String productId) {
-		if(repo.findById(productId).isPresent())
-		{
-			return repo.findById(productId).get();
-		}
-		return null;
+
+		return repo.findByProductId(productId);
 	}
 
 	public Product addProduct(Product product) {

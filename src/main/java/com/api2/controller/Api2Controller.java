@@ -1,6 +1,8 @@
 package com.api2.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,23 +20,20 @@ import io.swagger.annotations.ApiOperation;
 @Api
 @RequestMapping("/api2")
 public class Api2Controller {
-	
+
 	@Autowired
 	ProductService serv;
-	
+
 	@GetMapping("/search/{productId}")
 	@ApiOperation(value = "Search by Product ID")
-	public Product getProductById(@PathVariable String productId)
-	{
-		return serv.getProductById(productId);
+	public ResponseEntity<?> getProductById(@PathVariable String productId) {
+		return new ResponseEntity<Product>(serv.getProductById(productId), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/add")
 	@ApiOperation(value = "Add Product")
-	public Product addProduct(@RequestBody Product product)
-	{
-		return serv.addProduct(product);
+	public ResponseEntity<?> addProduct(@RequestBody Product product) {
+		return new ResponseEntity<Product>(serv.addProduct(product), HttpStatus.ACCEPTED);
 	}
-	
 
 }

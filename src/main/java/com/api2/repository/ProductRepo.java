@@ -8,4 +8,5 @@ import com.api2.model.Product;
 @Repository
 public interface ProductRepo extends JpaRepository<Product, String>{
 
+	public Product findByProductId(String productId);
 }
