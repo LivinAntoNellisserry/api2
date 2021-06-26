@@ -33,7 +33,33 @@ public class Api2Controller {
 	@PostMapping("/add")
 	@ApiOperation(value = "Add Product")
 	public ResponseEntity<?> addProduct(@RequestBody Product product) {
-		return new ResponseEntity<Product>(serv.addProduct(product), HttpStatus.ACCEPTED);
+	
+		return new ResponseEntity<Product>(serv.addProduct(product), HttpStatus.OK);
+	}
+
+	@PostMapping("/update")
+	@ApiOperation(value = "Update Product")
+	public ResponseEntity<?> updateProduct(@RequestBody Product product) {
+		
+		return new ResponseEntity<Product>(serv.updateProduct(product), HttpStatus.OK);
+	}
+	
+	@GetMapping("/delete/{productId}")
+	@ApiOperation(value = "Delete Product")
+	public ResponseEntity<?> deleteProduct(@PathVariable String productId)
+	{
+		Integer status = serv.deleteProduct(productId);
+		if(status.equals(1))
+		{
+			return new ResponseEntity<String>("The product is deleted",HttpStatus.OK);
+		}
+		if(status.equals(-1))
+		{
+			return new ResponseEntity<String>("The product is not expired",HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("The product is not present",HttpStatus.OK);
+	
+	
 	}
 
 }
