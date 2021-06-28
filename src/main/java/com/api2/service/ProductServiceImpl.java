@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api2.model.Product;
+import com.api2.model.Response;
 import com.api2.repository.ProductRepo;
 
 @Service
@@ -15,37 +16,27 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductRepo repo;
 
-	public Product getProductById(String productId) {
+	public Response getProductById(String productId) {
 
 		
 		if(!(repo.findByProductId(productId).isPresent()))
 		{
-			Product errorMsg = new Product();
-			errorMsg.setId(0);
-			errorMsg.setProductId("ERROR");
-			errorMsg.setProductName("NOT FOUND");
-			errorMsg.setProductExpiryDate(Date.valueOf(LocalDate.now()));
-			return errorMsg;
+			return  new Response("FAILED","PRODUCT NOT PRESENT",null);
 		}
-		return repo.findByProductId(productId).get();
+		return new Response("SUCCESS","PRODUCT PRESENT", repo.findByProductId(productId).get());
 	}
 
-	public Product addProduct(Product product) {
+	public Response addProduct(Product product) {
 		
 		if(repo.findByProductId(product.getProductId()).isPresent())
 		{
-			Product errorMsg = new Product(); 
-			errorMsg.setId(0);
-			errorMsg.setProductId("ERROR");
-			errorMsg.setProductName("EXIST");
-			errorMsg.setProductExpiryDate(Date.valueOf(LocalDate.now()));
-			return errorMsg;
+			return new Response("FAILED","PRODUCT ALREADY PRESENT",null);
 		}
 		repo.save(product);
-		return this.getProductById(product.getProductId());
+		return new Response("SUCCESS","PRODUCT SAVED",repo.findByProductId(product.getProductId()).get());
 	}
 
-	public Product updateProduct(Product product) {
+	public Response updateProduct(Product product) {
 		
 		if(repo.findByProductId(product.getProductId()).isPresent())
 		{
@@ -53,18 +44,14 @@ public class ProductServiceImpl implements ProductService {
 			updater.setProductExpiryDate(product.getProductExpiryDate());
 			updater.setProductName(product.getProductName());
 			repo.save(updater);
-			return this.getProductById(product.getProductId());
+			return new Response("SUCCESS","PRODUCT UPDATED",repo.findByProductId(product.getProductId()).get());
 		}
-		Product errorMsg = new Product();
-		errorMsg.setId(0);
-		errorMsg.setProductId("ERROR");
-		errorMsg.setProductName("NOT FOUND");
-		errorMsg.setProductExpiryDate(Date.valueOf(LocalDate.now()));
-		return errorMsg;
+		
+		return  new Response("FAILED","PRODUCT NOT PRESENT",null);
 		
 	}
 
-	public Integer deleteProduct(String productId) {
+	public Response deleteProduct(String productId) {
 		
 		if(repo.findByProductId(productId).isPresent())
 		{
@@ -72,11 +59,11 @@ public class ProductServiceImpl implements ProductService {
 					.before(Date.valueOf(LocalDate.now())))
 			{
 				repo.delete(repo.findByProductId(productId).get());
-				return 1;  //Product Expired and deleted
+				return new Response("SUCCESS","PRODUCT EXPIRED AND DELETED",null);  //Product Expired and deleted
 			}
-			return -1;  //Product not expired
+			return new Response("FAILED","PRODUCT NOT EXPIRED",null);  //Product not expired
 		}
-		return 0;  //Product not present
+		return new Response("FAILED","PRODUCT NOT PRESENT",null);  //Product not present
 	}
 
 }

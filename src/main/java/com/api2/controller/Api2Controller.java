@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api2.model.Product;
+import com.api2.model.Response;
 import com.api2.service.ProductService;
 
 import io.swagger.annotations.Api;
@@ -27,39 +28,28 @@ public class Api2Controller {
 	@GetMapping("/search/{productId}")
 	@ApiOperation(value = "Search by Product ID")
 	public ResponseEntity<?> getProductById(@PathVariable String productId) {
-		return new ResponseEntity<Product>(serv.getProductById(productId), HttpStatus.OK);
+		return new ResponseEntity<Response>(serv.getProductById(productId), HttpStatus.OK);
 	}
 
 	@PostMapping("/add")
 	@ApiOperation(value = "Add Product")
 	public ResponseEntity<?> addProduct(@RequestBody Product product) {
-	
-		return new ResponseEntity<Product>(serv.addProduct(product), HttpStatus.OK);
+
+		return new ResponseEntity<Response>(serv.addProduct(product), HttpStatus.OK);
 	}
 
 	@PostMapping("/update")
 	@ApiOperation(value = "Update Product")
 	public ResponseEntity<?> updateProduct(@RequestBody Product product) {
-		
-		return new ResponseEntity<Product>(serv.updateProduct(product), HttpStatus.OK);
+
+		return new ResponseEntity<Response>(serv.updateProduct(product), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/delete/{productId}")
 	@ApiOperation(value = "Delete Product")
-	public ResponseEntity<?> deleteProduct(@PathVariable String productId)
-	{
-		Integer status = serv.deleteProduct(productId);
-		if(status.equals(1))
-		{
-			return new ResponseEntity<String>("The product is deleted",HttpStatus.OK);
-		}
-		if(status.equals(-1))
-		{
-			return new ResponseEntity<String>("The product is not expired",HttpStatus.OK);
-		}
-		return new ResponseEntity<String>("The product is not present",HttpStatus.OK);
-	
-	
+	public ResponseEntity<?> deleteProduct(@PathVariable String productId) {
+
+		return new ResponseEntity<Response>(serv.deleteProduct(productId), HttpStatus.OK);
 	}
 
 }

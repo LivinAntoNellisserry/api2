@@ -1,11 +1,12 @@
 package com.api2.service;
 
 import com.api2.model.Product;
+import com.api2.model.Response;
 
 public interface ProductService {
-	public Product getProductById(String productId);
-	public Product addProduct(Product product);
-	public Product updateProduct(Product product);
-	public Integer deleteProduct(String productId);
+	public Response getProductById(String productId);
+	public Response addProduct(Product product);
+	public Response updateProduct(Product product);
+	public Response deleteProduct(String productId);
 	
 }
