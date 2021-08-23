@@ -4,7 +4,8 @@ import java.sql.Date;
 
 /**
  * 
- * ProductResponse Class maps the Product class to ProductResponse
+ * ProductResponse Class. Contains id, productId, productName,
+ * productExpiryDate.
  *
  */
 public class ProductResponse {

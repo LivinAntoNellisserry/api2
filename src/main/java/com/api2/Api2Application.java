@@ -6,6 +6,11 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**
+ * 
+ * Api2Application Class. Contains Main method.
+ *
+ */
 @SpringBootApplication
 @EnableEurekaClient
 @EnableSwagger2
