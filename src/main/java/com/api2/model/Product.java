@@ -8,6 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * 
+ * Product Class. Contains id, productId, productName and productExpiryDate as
+ * variables. This is the model class used by database to make Product table.
+ *
+ */
 @Entity
 public class Product {
 

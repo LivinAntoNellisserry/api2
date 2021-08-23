@@ -5,39 +5,39 @@ import com.api2.schema.Response;
 
 /**
  * 
- * Product Service interface
+ * ProductService Interface
  *
  */
 public interface ProductService {
 	/**
-	 * Method to Get Product by Id
+	 * Returns a response containing the product by Id if present.
 	 * 
-	 * @param productId input product Id
-	 * @return response returns response with product and expiration status
+	 * @param productId
+	 * @return response
 	 */
 	public Response getProductById(String productId);
 
 	/**
-	 * Method to Add Product
+	 * Saves the product and returns a response containing the saved product.
 	 * 
-	 * @param product input product to be added
-	 * @return response returns the added product and status
+	 * @param product
+	 * @return response
 	 */
 	public Response addProduct(Product product);
 
 	/**
-	 * Method to Update Product
+	 * Updates the product and returns the response containing the updated product.
 	 * 
-	 * @param product input product to update
-	 * @return response returns the updated product and status
+	 * @param product
+	 * @return response
 	 */
 	public Response updateProduct(Product product);
 
 	/**
-	 * Method to Delete Product
+	 * Deletes the product and returns a response containing the status of deletion.
 	 * 
-	 * @param productId input product id
-	 * @return response returns whether product is deleted or if its not
+	 * @param productId
+	 * @return response
 	 */
 	public Response deleteProduct(String productId);
 

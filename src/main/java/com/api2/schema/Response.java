@@ -2,7 +2,8 @@ package com.api2.schema;
 
 /**
  * 
- * Response Class sends the response back for the requests
+ * Response Class. Contains responseType, responseMessage and productResponse as
+ * variables.
  *
  */
 public class Response {
