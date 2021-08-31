@@ -1,5 +1,7 @@
 package com.api2.controller;
 
+import java.sql.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -83,13 +85,18 @@ public class Api2Controller {
 
 		return new ResponseEntity<Response>(serv.deleteProduct(productId), HttpStatus.OK);
 	}
-	
+	/**
+	 * Convert ProductClone to Product
+	 * 
+	 * @param productClone
+	 * @return product
+	 */
 	private Product ProductCloneToProduct(ProductClone productClone) {
 		Product product = new Product();
 		product.setId(productClone.getCloneId());
 		product.setProductId(productClone.getCloneProductId());
 		product.setProductName(productClone.getCloneProductName());
-		product.setProductExpiryDate(productClone.getCloneProductExpiryDate());
+		product.setProductExpiryDate(Date.valueOf(productClone.getCloneProductExpiryDate()));
 		return product;
 	}
 

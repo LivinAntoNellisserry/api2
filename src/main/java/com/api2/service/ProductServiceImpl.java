@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
 		if (product.isPresent()) {
 			ProductClone productClone = this.getProductClone(product.get());
 			String status;
-			if (productClone.getCloneProductExpiryDate().before(Date.valueOf(LocalDate.now()))) {
+			if (product.get().getProductExpiryDate().before(Date.valueOf(LocalDate.now()))) {
 				status = "EXPIRED";
 			} else {
 				status = "NOT EXPIRED";
@@ -121,7 +121,7 @@ public class ProductServiceImpl implements ProductService {
 	private ProductClone getProductClone(Product product) {
 		ProductClone productClone = new ProductClone();
 		productClone.setCloneId(product.getId());
-		productClone.setCloneProductExpiryDate(product.getProductExpiryDate());
+		productClone.setCloneProductExpiryDate(product.getProductExpiryDate().toString());
 		productClone.setCloneProductId(product.getProductId());
 		productClone.setCloneProductName(product.getProductName());
 		return productClone;

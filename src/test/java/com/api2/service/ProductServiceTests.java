@@ -40,7 +40,7 @@ class ProductServiceTests {
 	private ProductClone getProductClone(Product product) {
 		ProductClone productClone = new ProductClone();
 		productClone.setCloneId(product.getId());
-		productClone.setCloneProductExpiryDate(product.getProductExpiryDate());
+		productClone.setCloneProductExpiryDate(product.getProductExpiryDate().toString());
 		productClone.setCloneProductId(product.getProductId());
 		productClone.setCloneProductName(product.getProductName());
 		return productClone;

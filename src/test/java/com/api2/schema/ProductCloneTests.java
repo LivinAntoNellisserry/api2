@@ -13,7 +13,7 @@ import com.api2.model.Product;
 public class ProductCloneTests {
 	
 	ProductClone productClone;
-	Date today = Date.valueOf(LocalDate.now());
+	String today = Date.valueOf(LocalDate.now()).toString();
 
 	@BeforeEach
 	public void setup() {
