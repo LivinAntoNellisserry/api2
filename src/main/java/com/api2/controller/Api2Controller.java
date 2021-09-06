@@ -1,5 +1,7 @@
 package com.api2.controller;
 
+import java.sql.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api2.model.Product;
+import com.api2.schema.ProductClone;
 import com.api2.schema.Response;
 import com.api2.service.ProductService;
 
@@ -46,28 +49,28 @@ public class Api2Controller {
 	 * Saves the product and returns the response containing the added product if it
 	 * was added.
 	 * 
-	 * @param product
+	 * @param productClone
 	 * @return response
 	 */
 	@PostMapping("/add")
 	@ApiOperation(value = "Add Product")
-	public ResponseEntity<Response> addProduct(@RequestBody Product product) {
+	public ResponseEntity<Response> addProduct(@RequestBody ProductClone productClone) {
 
-		return new ResponseEntity<Response>(serv.addProduct(product), HttpStatus.OK);
+		return new ResponseEntity<Response>(serv.addProduct(this.ProductCloneToProduct(productClone)), HttpStatus.OK);
 	}
 
 	/**
 	 * Updates the product if the product was present and returns the response
 	 * containing updated product.
 	 * 
-	 * @param product
+	 * @param productClone
 	 * @return response
 	 */
 	@PostMapping("/update")
 	@ApiOperation(value = "Update Product")
-	public ResponseEntity<Response> updateProduct(@RequestBody Product product) {
+	public ResponseEntity<Response> updateProduct(@RequestBody ProductClone productClone) {
 
-		return new ResponseEntity<Response>(serv.updateProduct(product), HttpStatus.OK);
+		return new ResponseEntity<Response>(serv.updateProduct(this.ProductCloneToProduct(productClone)), HttpStatus.OK);
 	}
 
 	/**
@@ -81,6 +84,20 @@ public class Api2Controller {
 	public ResponseEntity<Response> deleteProduct(@PathVariable String productId) {
 
 		return new ResponseEntity<Response>(serv.deleteProduct(productId), HttpStatus.OK);
+	}
+	/**
+	 * Convert ProductClone to Product
+	 * 
+	 * @param productClone
+	 * @return product
+	 */
+	private Product ProductCloneToProduct(ProductClone productClone) {
+		Product product = new Product();
+		product.setId(productClone.getCloneId());
+		product.setProductId(productClone.getCloneProductId());
+		product.setProductName(productClone.getCloneProductName());
+		product.setProductExpiryDate(Date.valueOf(productClone.getCloneProductExpiryDate()));
+		return product;
 	}
 
 }
