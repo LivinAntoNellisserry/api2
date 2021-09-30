@@ -2,6 +2,8 @@ package com.api2.controller;
 
 import java.sql.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import com.api2.service.ProductService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
@@ -26,9 +29,12 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
+@Slf4j
 @Api
 @RequestMapping("/api2")
 public class Api2Controller {
+
+	private final Logger log = LoggerFactory.getLogger(Api2Controller.class);
 
 	@Autowired
 	ProductService serv;
@@ -42,6 +48,9 @@ public class Api2Controller {
 	@GetMapping("/search/{productId}")
 	@ApiOperation(value = "Search by Product ID")
 	public ResponseEntity<Response> getProductById(@PathVariable String productId) {
+		log.info("Hit Api2Controller");
+		log.info("Called getProductById");
+		log.debug("with productId = " + productId);
 		return new ResponseEntity<Response>(serv.getProductById(productId), HttpStatus.OK);
 	}
 
@@ -55,7 +64,9 @@ public class Api2Controller {
 	@PostMapping("/add")
 	@ApiOperation(value = "Add Product")
 	public ResponseEntity<Response> addProduct(@RequestBody ProductClone productClone) {
-
+		log.info("Hit Api2Controller");
+		log.info("Called addProduct");
+		log.debug("with " + productClone.toString() + " as Body");
 		return new ResponseEntity<Response>(serv.addProduct(this.ProductCloneToProduct(productClone)), HttpStatus.OK);
 	}
 
@@ -69,8 +80,11 @@ public class Api2Controller {
 	@PostMapping("/update")
 	@ApiOperation(value = "Update Product")
 	public ResponseEntity<Response> updateProduct(@RequestBody ProductClone productClone) {
-
-		return new ResponseEntity<Response>(serv.updateProduct(this.ProductCloneToProduct(productClone)), HttpStatus.OK);
+		log.info("Hit Api2Controller");
+		log.info("Called updateProduct");
+		log.debug("with " + productClone.toString() + " as Body");
+		return new ResponseEntity<Response>(serv.updateProduct(this.ProductCloneToProduct(productClone)),
+				HttpStatus.OK);
 	}
 
 	/**
@@ -82,9 +96,12 @@ public class Api2Controller {
 	@GetMapping("/delete/{productId}")
 	@ApiOperation(value = "Delete Product")
 	public ResponseEntity<Response> deleteProduct(@PathVariable String productId) {
-
+		log.info("Hit Api2Controller");
+		log.info("Called deleteProduct");
+		log.debug("with productId = " + productId);
 		return new ResponseEntity<Response>(serv.deleteProduct(productId), HttpStatus.OK);
 	}
+
 	/**
 	 * Convert ProductClone to Product
 	 * 
