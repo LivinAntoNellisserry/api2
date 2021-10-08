@@ -35,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Api2Controller {
 
 	private final Logger log = LoggerFactory.getLogger(Api2Controller.class);
+	private static final String hitApi2 = "Hit Api2Controller";
 
 	@Autowired
 	ProductService serv;
@@ -48,9 +49,9 @@ public class Api2Controller {
 	@GetMapping("/search/{productId}")
 	@ApiOperation(value = "Search by Product ID")
 	public ResponseEntity<Response> getProductById(@PathVariable String productId) {
-		log.info("Hit Api2Controller");
+		log.info(hitApi2);
 		log.info("Called getProductById");
-		log.debug("with productId = " + productId);
+		log.debug(productId);
 		return new ResponseEntity<Response>(serv.getProductById(productId), HttpStatus.OK);
 	}
 
@@ -64,9 +65,11 @@ public class Api2Controller {
 	@PostMapping("/add")
 	@ApiOperation(value = "Add Product")
 	public ResponseEntity<Response> addProduct(@RequestBody ProductClone productClone) {
-		log.info("Hit Api2Controller");
+		log.info(hitApi2);
 		log.info("Called addProduct");
-		log.debug("with " + productClone.toString() + " as Body");
+		if (log.isDebugEnabled()) {
+			log.debug(productClone.toString());
+		}
 		return new ResponseEntity<Response>(serv.addProduct(this.ProductCloneToProduct(productClone)), HttpStatus.OK);
 	}
 
@@ -80,9 +83,11 @@ public class Api2Controller {
 	@PostMapping("/update")
 	@ApiOperation(value = "Update Product")
 	public ResponseEntity<Response> updateProduct(@RequestBody ProductClone productClone) {
-		log.info("Hit Api2Controller");
+		log.info(hitApi2);
 		log.info("Called updateProduct");
-		log.debug("with " + productClone.toString() + " as Body");
+		if (log.isDebugEnabled()) {
+			log.debug(productClone.toString());
+		}
 		return new ResponseEntity<Response>(serv.updateProduct(this.ProductCloneToProduct(productClone)),
 				HttpStatus.OK);
 	}
@@ -96,9 +101,9 @@ public class Api2Controller {
 	@GetMapping("/delete/{productId}")
 	@ApiOperation(value = "Delete Product")
 	public ResponseEntity<Response> deleteProduct(@PathVariable String productId) {
-		log.info("Hit Api2Controller");
+		log.info(hitApi2);
 		log.info("Called deleteProduct");
-		log.debug("with productId = " + productId);
+		log.debug(productId);
 		return new ResponseEntity<Response>(serv.deleteProduct(productId), HttpStatus.OK);
 	}
 

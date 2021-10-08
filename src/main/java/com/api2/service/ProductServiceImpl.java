@@ -28,13 +28,15 @@ public class ProductServiceImpl implements ProductService {
 
 	public Response getProductById(String productId) {
 		log.info("Called getProductById Service");
-		log.debug("with productId = " + productId);
+		log.debug(productId);
 
 		Optional<Product> product = repo.findByProductId(productId);
 		if (product.isPresent()) {
 			log.info("Product was found");
 			ProductClone productClone = this.getProductClone(product.get());
-			log.debug(productClone.toString());
+			if (log.isDebugEnabled()) {
+				log.debug(productClone.toString());
+			}
 			String status;
 			if (product.get().getProductExpiryDate().before(Date.valueOf(LocalDate.now()))) {
 				status = "EXPIRED";
@@ -59,7 +61,9 @@ public class ProductServiceImpl implements ProductService {
 		}
 		ProductClone productClone = this.getProductClone(repo.save(product));
 		log.info("Product was added");
-		log.debug(productClone.toString());
+		if (log.isDebugEnabled()) {
+			log.debug(productClone.toString());
+		}
 		log.info("Exited addProduct Service");
 		return this.getResponse(SUCCESS, "PRODUCT SAVED", productClone);
 	}
@@ -73,7 +77,9 @@ public class ProductServiceImpl implements ProductService {
 			updater.setProductName(product.getProductName());
 			ProductClone productClone = this.getProductClone(repo.save(updater));
 			log.info("Product was updated");
-			log.debug(productClone.toString());
+			if (log.isDebugEnabled()) {
+				log.debug(productClone.toString());
+			}
 			log.info("Exited updateProduct Service");
 			return this.getResponse(SUCCESS, "PRODUCT UPDATED", productClone);
 		}
