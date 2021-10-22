@@ -27,23 +27,27 @@ public class ProductServiceImpl implements ProductService {
 	ProductRepo repo;
 
 	public Response getProductById(String productId) {
-		log.info("Called getProductById service");
+		log.info("Called getProductById Service");
+		log.debug(productId);
 
 		Optional<Product> product = repo.findByProductId(productId);
 		if (product.isPresent()) {
+			log.info("Product was found");
 			ProductClone productClone = this.getProductClone(product.get());
+			if (log.isDebugEnabled()) {
+				log.debug(productClone.toString());
+			}
 			String status;
 			if (product.get().getProductExpiryDate().before(Date.valueOf(LocalDate.now()))) {
 				status = "EXPIRED";
 			} else {
 				status = "NOT EXPIRED";
 			}
-			log.info("Product is Present and Returned");
-			log.info("Exited getProductById service");
+			log.info("Exited getProductById Service");
 			return this.getResponse(SUCCESS, status, productClone);
 		}
 		log.info("Product is absent");
-		log.info("Exited getProductById service");
+		log.info("Exited getProductById Service");
 		return this.getResponse(FAILED, "PRODUCT ABSENT", null);
 	}
 
@@ -52,17 +56,20 @@ public class ProductServiceImpl implements ProductService {
 		log.info("Called addProduct Service");
 		if (repo.findByProductId(product.getProductId()).isPresent()) {
 			log.info("Product was not added because it was already present");
-			log.info("Exited addProduct service");
+			log.info("Exited addProduct Service");
 			return this.getResponse(FAILED, "PRODUCT ALREADY PRESENT", null);
 		}
 		ProductClone productClone = this.getProductClone(repo.save(product));
 		log.info("Product was added");
-		log.info("Exited addProduct service");
+		if (log.isDebugEnabled()) {
+			log.debug(productClone.toString());
+		}
+		log.info("Exited addProduct Service");
 		return this.getResponse(SUCCESS, "PRODUCT SAVED", productClone);
 	}
 
 	public Response updateProduct(Product product) {
-		log.info("Called updateProductService");
+		log.info("Called updateProduct Service");
 		Optional<Product> tempProduct = repo.findByProductId(product.getProductId());
 		if (tempProduct.isPresent()) {
 			Product updater = tempProduct.get();
@@ -70,29 +77,31 @@ public class ProductServiceImpl implements ProductService {
 			updater.setProductName(product.getProductName());
 			ProductClone productClone = this.getProductClone(repo.save(updater));
 			log.info("Product was updated");
-			log.info("Exited updateProduct service");
+			if (log.isDebugEnabled()) {
+				log.debug(productClone.toString());
+			}
+			log.info("Exited updateProduct Service");
 			return this.getResponse(SUCCESS, "PRODUCT UPDATED", productClone);
 		}
 		log.info("Update failed because product was not present");
-		log.info("Exited updateProduct service");
+		log.info("Exited updateProduct Service");
 		return this.getResponse(FAILED, "PRODUCT NOT PRESENT", null);
 	}
 
 	public Response deleteProduct(String productId) {
-		log.info("Called deleteProduct service");
-
+		log.info("Called deleteProduct Service");
 		Optional<Product> product = repo.findByProductId(productId);
 
 		if (product.isPresent()) {
 			if ((product.get().getProductExpiryDate()).before(Date.valueOf(LocalDate.now()))) {
 				repo.delete(product.get());
-				log.info("Product was expired and Deleted");
+				log.info("Product was Expired and Deleted");
 				return this.getResponse(SUCCESS, "PRODUCT EXPIRED AND DELETED", null);
 			}
-			log.info("Product was not Deleted because product was not expired");
+			log.info("Product was Not Deleted because product was Not Expired");
 			return this.getResponse(FAILED, "PRODUCT NOT EXPIRED", null);
 		}
-		log.info("Product was not Deleted because product was not present");
+		log.info("Product was Not Deleted because product was Not Present");
 		return this.getResponse(FAILED, "PRODUCT NOT PRESENT", null);
 	}
 

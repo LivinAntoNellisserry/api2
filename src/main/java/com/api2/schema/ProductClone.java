@@ -1,7 +1,5 @@
 package com.api2.schema;
 
-import java.sql.Date;
-
 /**
  * 
  * ProductClone Class. Contains cloneId, cloneProductId, cloneProductName,
